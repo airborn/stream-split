@@ -4,27 +4,12 @@ import org.jooq.lambda.Seq;
 import org.jooq.lambda.tuple.Tuple;
 import org.jooq.lambda.tuple.Tuple2;
 
-import java.util.Arrays;
-import java.util.List;
 import java.util.function.Function;
 import java.util.function.Predicate;
 
 public class StepTransformer {
 
     private final Predicate<HasStatus> successfulStatusPredicate = HasStatus -> HasStatus.getStatus() == Status.OK;
-
-    public static void main(String[] args) {
-        List<Step1> steps = Arrays.asList(new Step1(1), new Step1(2), new Step1(3), new Step1(4));
-
-        StepTransformer stepTransformer = new StepTransformer();
-        Tuple2<Seq<Step4>, Seq<HasStatus>> map = stepTransformer.transform(steps);
-
-        System.out.println("Successful:");
-        map.v1.forEach(System.out::println);
-        System.out.println("============");
-        System.out.println("failed:");
-        map.v2.forEach(System.out::println);
-    }
 
     public Tuple2<Seq<Step4>, Seq<HasStatus>> transform(Iterable<Step1> steps) {
         Seq<Step1> seq = Seq.seq(steps);
